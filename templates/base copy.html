@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital dev Group</title>
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/contente.css">
+    <link rel="stylesheet" href="/assets/css/spoiler.css">
+</head>
+<body id="body-pd">
+    <div class="l-navbar" id="navbar">
+        <nav class="nav">
+                <div class="nav__brand">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon nav__toggle" id="nav-toggle" width="512" height="512" viewBox="0 0 512 512">
+                        <title>ionicons-v5-j</title>
+                        <line x1="80" y1="160" x2="432" y2="160" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"/>
+                        <line x1="80" y1="256" x2="432" y2="256" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"/>
+                        <line x1="80" y1="352" x2="432" y2="352" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"/>
+                    </svg>
+                    <script>
+                        var HttpRequest = new XMLHttpRequest();
+
+                        var form = document.querySelector("form");
+                        var result = document.getElementById('result');
+                        var input = document.querySelector(".nav__toggle")
+                        input.addEventListener('click', function(e) {
+                            HttpRequest.open('GET', 'http://localhost:8000/post/', true);
+                            HttpRequest.send();
+
+                            HttpRequest.onreadystatechange = function() {
+                                if (HttpRequest.readyState === 4) {
+                                    console.log(resultat);
+                                }
+                            }
+                        })
+                        form.addEventListener('submit', function() {
+                            e.preventDefault();
+                        })
+                    </script>
+                    <a href="/" class="nav__logo">DigitalDev'Group</a>
+                </div>
+                <div class="nav__list">
+                    <a href="/" class="nav__link active">
+                        <img src="/assets/icons/home-outline.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Accueil</span>
+                    </a>
+                    <div class="nav__link collapse">
+                        <img src="/assets/icons/people-outline.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Communautés</span>
+
+                        <img src="/assets/icons/chevron-down-outline.svg" class="icon collapse__link" alt="derouler">
+
+                        <ul class="collapse__menu">
+                            <a href="#" class="collapse__sublink">Fluter Côte d'Ivoire</a>
+                            <a href="#" class="collapse__sublink">Developpement Web PHP</a>
+                            <a href="#" class="collapse__sublink">Promotech</a>
+                            <a href="#" class="collapse__sublink">Statisticien ENSEA</a>
+                            <a href="#" class="collapse__sublink">Trouver du Job</a>
+                        </ul>
+                    </div>
+                    <div class="nav__link collapse">
+                        <img src="/assets/icons/trending-up-outline-white.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Explorer/Sujets</span>
+
+                        <img src="/assets/icons/chevron-down-outline.svg" class="icon collapse__link" alt="">
+
+                        <ul class="collapse__menu">
+                            <a href="#" class="collapse__sublink">Gaming</a>
+                            <a href="#" class="collapse__sublink">Sport</a>
+                            <a href="#" class="collapse__sublink">Politique</a>
+                            <a href="#" class="collapse__sublink">Science</a>
+                            <a href="#" class="collapse__sublink">Business</a>
+                        </ul>
+                    </div>
+                    <a href="/" class="nav__link">
+                        <img src="/assets/icons/information-circle-outline.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">A propos de nous !</span>
+                    </a>
+                    <a href="/" class="nav__link">
+                        <img src="/assets/icons/call-outline.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Contacts</span>
+                    </a>            
+                </div>
+                <div>
+                    <a href="#" class="nav__link login_btn">
+                        <img src="/assets/icons/log-out-outline.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Log In</span>
+                    </a>
+                </div>
+        </nav>
+    </div>
+    <div class="login_form">
+        <span class="fake_element">
+            <img src="/assets/icons/close-circle-outline.svg" alt="" class="close_login_form" width="50px">
+        </span>
+        <div class="form_div" id="login_form">
+            <h1 class="title">Se connecter</h1>
+            <form action="#">
+                <div>
+                    <div class="form_question">
+                        <label for="email_username" class="username_label">Nom d'utilisateur / Email</label>
+                        <input type="email" id="email_username">
+                    </div>
+                    <div class="form_question">
+                        <label for="password" class="password_label">Mot de passe</label>
+                        <input type="password" id="password">
+                    </div>
+                    <div class="div_option">
+                        <a href="" class="register_btn">S'Inscrire</a>
+                        <a href="">Mot de passe oublié</a>
+                    </div>
+                </div>
+                <div class="submit_btn">
+                    <button type="submit" class="nav__link">Se Connecter</button>
+                </div>
+            </form>
+        </div>
+        <div class="form_div hidden_element opacity" id="register_form">
+            <h1 class="title">S'Inscrire</h1>
+            <form action="#">
+                <div>
+                    <div class="form_question">
+                        <label for="username" class="username_label">Nom d'utilisateur</label>
+                        <input type="text" id="username">
+                    </div>
+                    <div class="form_question">
+                        <label for="email" class="email_label">Email</label>
+                        <input type="email" id="email">
+                    </div>
+                    <div class="form_question">
+                        <label for="register_password" class="password_label">Mot de passe</label>
+                        <input type="password" id="register_password">
+                    </div>
+                    <div class="form_question">
+                        <label for="Conf_password" class="password_label">Mot de passe</label>
+                        <input type="password" id="Conf_password">
+                    </div>
+                    <div class="div_option">
+                        <a href="" class="login_on_register_btn">Se Connecter</a>
+                    </div>
+                </div>
+                <div class="submit_btn">
+                    <button type="submit" class="nav__link">S'Inscrire</button>
+                </div>
+            </form>
+        </div>
+        <span class="fake_element"></span>
+    </div>
+
+    <div class="body">
+        <div class="nav-fixe">
+            <nav class="navigation">
+                <a href="#" class="active actualite">Fil d'actualité</a>
+                <a href="#" class="message">Messages</a>
+                <a href="#" class="event">Evènement</a>
+                <a href="#" class="groupe">Groupes</a>
+                <a href="#" class="amis">Amis</a>
+            </nav>
+        </div>
+        <main class="main">
+{% block content %}
+
+{% endblock %}
+        </main>
+        <div class="profil">
+            <article class="first">
+                <header>
+                    <img class="article-avatar" src="/assets/image/user2.png" width="50px">
+                    <h2 class="article-title">Mon Pseudo</h2>
+                    <div class="article-date">Il y'a 10 minutes</div>
+                </header>
+                <p class="article-content">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore odit iure, molestiae quam sit vero explicabo magnam magni iusto saepe nisi. Ex ducimus possimus ullam repellendus enim modi dicta at!
+                </p>
+            </article>
+
+            <div class="side_content">
+                <div class="surgestion">Surgestion</div>
+                <div class="surgestion__link">
+                    <a class="sug__link">Sport</a>
+                </div>
+                <div class="surgestion__link">
+                    <a class="surg__link">Musique</a>
+                </div>
+                <div class="surgestion__link">
+                    <a class="surg__link">Football</a>
+                </div>
+                <div class="surgestion__link">
+                    <a class="surg__link">Politique</a>
+                </div>
+                <div class="surgestion__link">
+                    <a class="surg__link">Voyage</a>
+                </div>
+                <div class="surgestion__link">
+                    <a class="surg__link">Science</a>
+                </div>
+                <div class="surgestion__link">
+                    <a class="surg__link">Android</a>
+                </div>
+                <div class="surgestion__link">
+                    <a class="surg__link">Apple</a>
+                </div>
+            </div>
+            <div class="side_content">
+                <div class="surgestion">Populaire</div>
+                <div class="amis">
+                    <img src="/assets/image/user1.png" alt="surgestion" class="ami-picture" width="auto" height="75px">
+                    <div class="ami-name">Jonh Doe</div>
+                    <div class="ami-mutuel">15 amis mutuels</div>
+                    <a class="ami-add">Ajouter en amis</a>
+                </div>
+                <div class="amis">
+                    <img src="/assets/image/user1.png" alt="surgestion" class="ami-picture" width="auto" height="75px">
+                    <div class="ami-name">Jonh Doe</div>
+                    <div class="ami-mutuel">15 amis mutuels</div>
+                    <a class="ami-add">Ajouter en amis</a>
+                </div>
+                <div class="amis">
+                    <img src="/assets/image/user1.png" alt="surgestion" class="ami-picture" width="auto" height="75px">
+                    <div class="ami-name">Jonh Doe</div>
+                    <div class="ami-mutuel">15 amis mutuels</div>
+                    <a class="ami-add">Ajouter en amis</a>
+                </div>
+                <div class="amis">
+                    <img src="/assets/image/user1.png" alt="surgestion" class="ami-picture" width="auto" height="75px">
+                    <div class="ami-name">Jonh Doe</div>
+                    <div class="ami-mutuel">15 amis mutuels</div>
+                    <a class="ami-add">Ajouter en amis</a>
+                </div>
+                <div class="amis">
+                    <img src="/assets/image/user1.png" alt="surgestion" class="ami-picture" width="auto" height="75px">
+                    <div class="ami-name">Jonh Doe</div>
+                    <div class="ami-mutuel">15 amis mutuels</div>
+                    <a class="ami-add">Ajouter en amis</a>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="page-footer">
+            <footer>
+                <p>&copy; 2022 <a href="http://www.digitaldevgroup.com">DigitalDev'Group</a> - Tout droit réservé</p>
+            </footer>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/assets/js/main.js"></script>
+    <script src="/assets/js/spoiler.js" type="text/javascript"></script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital dev Group</title>
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/contente.css">
+    <link rel="stylesheet" href="/assets/css/spoiler.css">
+    <link rel="stylesheet" href="/assets/css/poste.css">
+    <link rel="stylesheet" href="/assets/css/publish.css">
+    <link rel="stylesheet" href="/assets/css/autocomplete.css">
+</head>
+<body id="body-pd">
+    <div class="l-navbar" id="navbar">
+        <nav class="nav">
+                <div class="nav__brand">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon nav__toggle" id="nav-toggle" width="512" height="512" viewBox="0 0 512 512">
+                        <title>ionicons-v5-j</title>
+                        <line x1="80" y1="160" x2="432" y2="160" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"/>
+                        <line x1="80" y1="256" x2="432" y2="256" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"/>
+                        <line x1="80" y1="352" x2="432" y2="352" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"/>
+                    </svg>
+                    <a href="{% url 'accueil' %}" class="nav__logo">DigitalDev'Group</a>
+                </div>
+                <div class="nav__list">
+                    <a href="{% url 'accueil' %}" class="nav__link active">
+                        <img src="/assets/icons/home-outline.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Accueil</span>
+                    </a>
+                    <div class="nav__link collapse">
+                        <img src="/assets/icons/people-outline.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Communautés</span>
+
+                        <img src="/assets/icons/chevron-down-outline.svg" class="icon collapse__link" alt="derouler">
+
+                        <ul class="collapse__menu">
+                            <a href="#" class="collapse__sublink">Fluter Côte d'Ivoire</a>
+                            <a href="#" class="collapse__sublink">Developpement Web PHP</a>
+                            <a href="#" class="collapse__sublink">Promotech</a>
+                            <a href="#" class="collapse__sublink">Statisticien ENSEA</a>
+                            <a href="#" class="collapse__sublink">Trouver du Job</a>
+                        </ul>
+                    </div>
+                    <div class="nav__link collapse">
+                        <img src="/assets/icons/trending-up-outline-white.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Explorer/Sujets</span>
+
+                        <img src="/assets/icons/chevron-down-outline.svg" class="icon collapse__link" alt="">
+
+                        <ul class="collapse__menu" id="categoryList">
+                        </ul>
+                    </div>
+                    <a href="/" class="nav__link">
+                        <img src="/assets/icons/information-circle-outline.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">A propos de nous !</span>
+                    </a>
+                    <a href="/" class="nav__link">
+                        <img src="/assets/icons/call-outline.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Contacts</span>
+                    </a>            
+                </div>
+                
+    {% if user.is_authenticated %}
+                <div class="nav__link collapse">
+                        {% csrf_token %}
+                        <img src="/assets/icons/person-white.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name username">{{ user.username }}</span>
+
+                        <img src="/assets/icons/chevron-down-outline.svg" class="icon collapse__link" alt="">
+
+                        <ul class="collapse__menu">
+                            <a href="{% url 'logout' %}" class="collapse__sublink login_btn" id="log_out_btn">Se deconnecter</a>
+                            <a href="{{ user.get_absolute_url }}" class="collapse__sublink">Modifier profile</a>
+                        </ul>
+    {% else %}
+                <div>
+                        <a class="nav__link login_btn">
+                        <img src="/assets/icons/log-in-outline.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Se Connecter</span>
+                        </a>
+    {% endif %}
+                </div>
+        </nav>
+    </div>
+    {% if not user.is_authenticated %}
+    <a hidden href="{% url 'login' %}" id="login_url_id"></a>
+    <a hidden href="{% url 'signup' %}" id="signup_url_id"></a>
+    <div class="login_form">
+        <span class="fake_element">
+            <img src="/assets/icons/close-circle-outline.svg" alt="" class="close_login_form" width="50px">
+        </span>
+        <div class="form_div" id="login_form">
+            <h1 class="title">Se connecter</h1>
+            <form action="{% url 'login' %}" id="login_form_element">
+                {% csrf_token %}
+                <div>
+                    <div class="form_question">
+                        <label for="email_username" class="username_label">Nom d'utilisateur / Email</label>
+                        <input type="text" id="email_username" name="username" required minlength="3">
+                    </div>
+                    <div class="form_question">
+                        <label for="password" class="password_label">Mot de passe</label>
+                        <input type="password" id="password" name="password" required minlength="8">
+                    </div>
+                    <div class="div_option">
+                        <a href="" class="register_btn">S'Inscrire</a>
+                        <a href="">Mot de passe oublié</a>
+                    </div>
+                </div>
+                <div class="submit_btn">
+                    <button type="submit" class="nav__link" id="login_btn">Se Connecter</button>
+                </div>
+            </form>
+        </div>
+        <div class="form_div hidden_element opacity" id="register_form">
+            <h1 class="title">S'Inscrire</h1>
+            <form action="{% url 'signup' %}" id="register_form_element">
+                {% csrf_token %}
+                <div>
+                    <div class="form_question">
+                        <label for="username" class="username_label">Nom d'utilisateur</label>
+                        <input type="text" id="username" name="username" required minlength="3">
+                    </div>
+                    <div class="form_question">
+                        <label for="email" class="email_label">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form_question">
+                        <label for="register_password" class="password_label">Mot de passe</label>
+                        <input type="password" id="register_password" name="password" required minlength="8">
+                    </div>
+                    <div class="form_question">
+                        <label for="Conf_password" class="password_label">Confirmation</label>
+                        <input type="password" id="Conf_password" name="conf_password" required minlength="8">
+                    </div>
+                    <div class="div_option">
+                        <a href="" class="login_on_register_btn">Se Connecter</a>
+                    </div>
+                </div>
+                <div class="submit_btn">
+                    <button type="submit" class="nav__link" id="register_btn">S'Inscrire</button>
+                </div>
+            </form>
+        </div>
+        <span class="fake_element"></span>
+    </div>
+    {% endif %}
+
+    <div class="body">
+        <div class="nav-fixe">
+            <nav class="navigation">
+                <a href="{% url 'accueil' %}" class="active actualite" id="home">Fil d'actualité</a>
+                <a href="{% url 'publish' %}" class="message" id="publish">Publier</a>
+                <a href="{% url 'mypost' %}" class="event" id="mypost">Mes postes</a>
+                <a href="{% url 'notification' %}" class="groupe" id="notification">Notification</a>
+            </nav>
+        </div>
+        <main class="main">
+{% block content %}
+
+{% endblock %}
+        </main>
+        <a hidden id="get_popular_category" href="{% url 'get-popular-category' %}"></a>
+        <a hidden id="get_surgestion_category" href="{% url 'get-surgestion-category' %}"></a>
+        <a hidden id="get_sujet" href="{% url 'get-subject' %}"></a>
+        <div class="profil">
+            <!--Make sure the form has the autocomplete function switched off:-->
+            <form autocomplete="off" action="{% url 'search' %}" class="form_autocomplete">
+                <div class="autocomplete">
+                <input id="myInput" type="text" name="search" placeholder="Recherche">
+                </div>
+                <input type="submit" value="SEARCH">
+            </form>
+            <div class="side_content subject_div">
+            </div>
+            <div class="side_content populare_div">
+            </div>
+        </div>
+        </div>
+        <div class="page-footer">
+            <footer>
+                <p>&copy; 2022 <a href="http://www.digitaldevgroup.com">DigitalDev'Group</a> - Tout droit réservé</p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="/assets/js/main.js" type="application/javascript"></script>
+    <script src="/assets/js/spoiler.js" type="application/javascript"></script>
+    <script src="/assets/js/autocomplete.js" type="application/javascript"></script>
+ 
+</body>
+</html>

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- <link rel="stylesheet" href="/assets/css/editor.css" /> -->
+ 
+<div class="publication_formulaire">
+    <div class="form">
+        <form id="publication_form" action="{% url 'publish' %}" method="POST" class="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="details">
+                <div class="input_form">
+                    <label for="title">Titre</label>
+                    <input type="text" id="title" class="title" name="title" required>
+                </div>
+            
+                <div class="category_details">
+                    <div class="select_form category_form">
+                        <label for="categoryID">Categorie</label>
+                        <select id="categoryID" name="category">
+                            {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="select_form subcategory_form">
+                        <label for="subcategoryID">Sous-categorie</label>
+                        <select id="subcategoryID" name="subcategory" required>
+                            {% for subcategory in subcategories %}
+                                <option value="{{ subcategory.id }}">{{ subcategory.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="option">
+                <nav class="commentaire_option">
+                    <div class="publish_option">
+                        <label for="input_picture">
+                            <img src="/assets/icons/image-outline.svg" alt="" class="icon">
+                        </label>
+                    </div>
+                </nav>
+            </div>
+            <img src="" alt="" class="commentaire_img">
+                <textarea  class="comment-text-area" id="comment-text-area" name="commentaire" placeholder="Ecrire du texte..." rows="7" required></textarea>
+            
+            <button class="send_btn">
+                ENVOYER
+            </button>
+            <input type="file" style="width: 0;height: 0; padding: 0%; border: none;" size="40" name="input_picture" id="input_picture" onchange="previewPicture(this)" multiple>
+        </form>
+    </div>
+    
+</div>
+    <!-- <script type="text/javascript" src="/assets/js/editor.js"></script>
+    <script type="text/javascript" src="/assets/js/marked.js"></script> -->
+    <script type="text/javascript" src="/assets/js/publier.js"></script>
+{% endblock %}

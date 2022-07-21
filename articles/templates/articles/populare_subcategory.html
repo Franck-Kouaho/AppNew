@@ -1,0 +1,7 @@
+
+<div class="surgestion populaire">Sous-categories populaires</div>
+{% for subcategory in subcategories %}
+<div class="populaire_link">
+    <a href="{{ subcategory.get_absolute_url }}" class="sug__link">{{ subcategory.name }}</a>
+</div>
+{% endfor %}

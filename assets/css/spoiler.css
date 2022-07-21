@@ -1,0 +1,29 @@
+.spoiler-content {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: opacity 0.5s;
+    -webkit-transition: opacity 0.5s;
+    -moz-transition: opacity 0.5s;
+    -ms-transition: opacity 0.5s;
+    -o-transition: opacity 0.5s;
+}
+
+.spoiler button {
+    background-color: #94949e25;
+    border: 1px solid #a09e9e52;
+    font-size: 16px;
+    padding: 2px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.spoiler-content.visible {
+    display: inline;
+    opacity: 1;
+}

@@ -1,0 +1,98 @@
+.commentaire_formulaire.form form {
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    grid-template-areas: "image image"
+                         "details details"
+                         "option option"
+                         "text_area send_btn";
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.option{
+    grid-area: option;
+}
+.form form .comment-text-area{
+    margin-right: 10px;
+    height: max-content;
+    min-height: 10vh;
+    width: 100%;
+    border-radius: 5px;
+    background-color: aliceblue;
+    grid-area: text_area;
+}
+.send_btn{
+    background: none;
+    border: none;
+    grid-area: send_btn;
+}
+
+.publish_option{
+    display: inline-block;
+}
+
+.publish_option, .option .commentaire_option{
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.commentaire_img{
+    max-width: 100%;
+    margin: 10px auto;
+    max-height: 36vh;
+    grid-area: image;
+}
+
+#input_picture{
+    opacity: 0;
+}
+
+.commentaires_liste{
+    margin-left: 5%;
+    border-left: 5px #000 solid;
+    background-color: rgba(0, 0, 0, 0.116);
+}
+
+.commentaire_article .article-image,
+    .commentaire_article .article-content{
+    padding-left: 15%;
+}
+
+.commentaire_article{
+    background-color: rgba(32, 42, 189, 0.068);
+}
+
+.commentaire_article header{
+    display: grid;
+    grid-template-columns: max-content max-content max-content;
+    grid-template-areas: "avatar title date";
+    margin-bottom: 0px;
+}
+
+.commentaire_article .article-avatar {
+    width: 40px;
+}
+
+.commentaire_article .article-avatar{
+    grid-area: avatar;
+    display: inline-block;
+}
+.commentaire_article .article-title{
+    grid-area: title;
+    display: inline-block;
+    margin: auto 0;
+    height: min-content;
+}
+.commentaire_article .article-date{
+    grid-area: date;
+    display: inline-block;
+    text-align: center;
+    justify-content: center;
+    margin: auto 5px;
+}
+
+.my_editor{
+    grid-area: editor;
+}

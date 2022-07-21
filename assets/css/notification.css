@@ -1,0 +1,22 @@
+article {
+    background-color: #FFF;
+    color: rgb(110, 108, 108);
+    padding: 0;
+    margin: 0px;
+    width: 100%;
+    border-bottom: 1px solid #00000017;
+    font-weight: bold;
+}
+.notif_content a{
+    text-decoration: none;
+    color: rgb(110, 108, 108);
+}
+
+.notif_is_not_view{
+    font-weight: normal;
+}
+
+article .notif_content{
+    margin: 0;
+    padding: 10px;
+}

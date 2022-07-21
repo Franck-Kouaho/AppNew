@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for article in results %}
+<article >
+    <div class="header">
+        <header>
+            <img class="article-avatar" src="/assets/image/user2.png" width="45px">
+            <h2 class="article-author">{{ article.author }}</h2>
+            <div class="article-date">{{ article.publish_date }}</div>
+        </header>
+        <div class="article-menu">
+            <img src="/assets/icons/chevron-down-outline-black.svg" class="icon collapse__link" alt="">
+            <ul class="collapse__menu menu_item">
+                {% if not author in article.get_followers_list %}
+                <a href="{% url 'follow' article.slug article.id %}" class="nav__link">
+                    <img src="/assets/icons/add-white.svg" alt="" class="icon nav__icon">
+                    <span class="nav__name">Suivre</span>
+                </a>
+                {% else %}
+                <a href="{% url 'follow' article.slug article.id %}" class="nav__link">
+                    <img src="/assets/icons/remove-white.svg" alt="" class="icon nav__icon">
+                    <span class="nav__name">Ne plus suivre</span>
+                </a>
+                {% endif %}
+                {% if article.author == author %}
+                <a href="{% url 'delete' article.slug article.id %}" class="nav__link">
+                    <img src="/assets/icons/delete-button-white.svg" alt="" class="icon nav__icon">
+                    <span class="nav__name">Supprimer</span>
+                </a>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <a href="{{ article.get_absolute_url }}" class="article__link">
+        <h3 class="article-title">{{ article.title }}</h3>
+        {% if article.thumbnail %}
+        <img class="article-image" src="{{ article.thumbnail.url }}" width=" 100% ">
+        {% endif %}
+        <p class="article-content ">{{ article.content }}</p>
+    </a>
+    <footer>
+        <div class="like_dislike">
+            <a hidden href="/unnotice/{{ article.slug }}/{{ article.id }}/" class="unnotice"></a>
+            <a href="/like/{{ article.slug }}/{{ article.id }}/" class="pouces {% for liker in article.get_liker %}{% if liker.author == author %}is_active{% endif %}{% endfor %}">{{ article.get_like_number }}</a>
+            <a href="/dislike/{{ article.slug }}/{{ article.id }}/" class="dislike {% for disliker in article.get_disliker %}{% if disliker.author == author %}is_active{% endif %}{% endfor %}">{{ article.get_dislike_number }}</a>
+        </div>
+        <a href="/post/{{ article.slug }}/{{ article.id }}/" class="commentaires">{{ article.get_respons_number }}</a>
+    </footer>
+</article>
+{% empty %}
+<h1>Aucun resultat trouvé !</h1>
+{% endfor %}
+{% endblock %}

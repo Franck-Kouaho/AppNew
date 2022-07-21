@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="/assets/css/notification.css">
+{% for notification in notifications %}
+<article >
+    <p class="notif_content{% for viewer in notification.get_viewer_list.all %}{% if viewer == author %} notif_is_not_view{% endif %}{% endfor %}">
+        <a href="{{ notification.article.get_absolute_url }}">
+            {% if notification.reaction == notification.LIKE %}
+                {{ notification.date }} : Vous avez {{ notification.article.get_like_number }} personnes qui aiment {% if notification.article.author == user %}votre publication{% else %}la publication de {{ notification.article.author }}{% endif %} faite le {{ notification.article.publish_date }}
+            {% elif notification.reaction == notification.DISLIKE %}
+                {{ notification.date }} : Vous avez {{ notification.article.get_dislike_number }} personnes qui n'apprecient pas  {% if notification.article.author == user %}votre publication{% else %}la publication de {{ notification.article.author }}{% endif %} faite le {{ notification.article.publish_date }}
+            {% elif notification.reaction == notification.RESPONS %}
+                {{ notification.date }} : {{ notification.article.get_respons_number }} personnes ont repondu à {% if notification.article.author == user %}votre publication{% else %}la publication de {{ notification.article.author }}{% endif %} faite le {{ notification.article.publish_date }}
+            {% endif %}
+        </a>
+    </p>
+</article>
+{% empty %}
+<h3>Aucune notification !</h3>
+{% endfor %}
+{% endblock %}

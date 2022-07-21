@@ -1,0 +1,7 @@
+
+<div class="surgestion populaire">Sujets</div>
+{% for article in articles %}
+<div class="populaire_link">
+    <a href="{{ article.get_absolute_url }}" class="sug__link">{{ article.title }}</a>
+</div>
+{% endfor %}

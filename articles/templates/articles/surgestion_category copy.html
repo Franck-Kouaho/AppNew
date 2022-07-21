@@ -1,0 +1,6 @@
+<div class="surgestion">Surgestion</div>
+{% for category in categories %}
+<div class="surgestion__link">
+    <a href="{{ category.get_absolute_url }}" class="sug__link">{{ category.name }}</a>
+</div>
+{% endfor %}

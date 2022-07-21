@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for article in articles %}
+<article >
+    <div class="header">
+        <header>
+            <img class="article-avatar" src="/assets/image/user2.png" width="45px">
+            <h2 class="article-author">{{ article.author }}</h2>
+            <div class="article-date">{{ article.publish_date }}</div>
+        </header>
+        <div class="article-menu">
+            <img src="/assets/icons/chevron-down-outline-black.svg" class="icon collapse__link" alt="">
+            <ul class="collapse__menu menu_item">
+                {% if not author in article.get_followers_list %}
+                <a href="{% url 'follow' article.slug article.id %}" class="nav__link">
+                    <img src="/assets/icons/add-white.svg" alt="" class="icon nav__icon">
+                    <span class="nav__name">Suivre</span>
+                </a>
+                {% else %}
+                <a href="{% url 'follow' article.slug article.id %}" class="nav__link">
+                    <img src="/assets/icons/remove-white.svg" alt="" class="icon nav__icon">
+                    <span class="nav__name">Ne plus suivre</span>
+                </a>
+                {% endif %}
+                {% if article.author == author %}
+                <a href="{% url 'delete' article.slug article.id %}" class="nav__link">
+                    <img src="/assets/icons/delete-button-white.svg" alt="" class="icon nav__icon">
+                    <span class="nav__name">Supprimer</span>
+                </a>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <a href="{{ article.get_absolute_url }}" class="article__link">
+        <h3 class="article-title">{{ article.title }}</h3>
+        {% if article.thumbnail %}
+        <img class="article-image" src="{{ article.thumbnail.url }}" width=" 100% ">
+        {% endif %}
+        <p class="article-content ">{{ article.content }}</p>
+    </a>
+    <footer>
+        <div class="like_dislike">
+            <a hidden href="{% url 'unnotice' article.slug article.id %}" class="unnotice"></a>
+            <a href="{% url 'like' article.slug article.id %}" class="pouces {% for liker in article.get_liker %}{% if liker.author == author %}is_active{% endif %}{% endfor %}">{{ article.get_like_number }}</a>
+            <a href="{% url 'dislike' article.slug article.id %}" class="dislike {% for disliker in article.get_disliker %}{% if disliker.author == author %}is_active{% endif %}{% endfor %}">{{ article.get_dislike_number }}</a>
+        </div>
+        <a href="{% url 'respons' article.slug article.id %}" class="commentaires">{{ article.get_respons_number }}</a>
+    </footer>
+</article>
+<div class="commentaires_liste">
+    {% for resp in article.get_respons %}
+    <article class="commentaire_article">
+        <div class="header">
+            <header>
+                <img class="article-avatar" src="/assets/image/user2.png" width="45px">
+                <h2 class="article-author">{{ resp.author }}</h2>
+                <div class="article-date">{{ resp.publish_date }}</div>
+            </header>
+            <div class="article-menu">
+                <img src="/assets/icons/chevron-down-outline-black.svg" class="icon collapse__link" alt="">
+                <ul class="collapse__menu menu_item">
+                    {% if not author in resp.get_followers_list %}
+                    <a href="{% url 'follow' resp.slug resp.id %}" class="nav__link">
+                        <img src="/assets/icons/add-white.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Suivre</span>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'follow' resp.slug resp.id %}" class="nav__link">
+                        <img src="/assets/icons/remove-white.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Ne plus suivre</span>
+                    </a>
+                    {% endif %}
+                    {% if resp.author == author %}
+                    <a href="{% url 'delete' resp.slug resp.id %}" class="nav__link">
+                        <img src="/assets/icons/delete-button-white.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Supprimer</span>
+                    </a>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <a href="{{ resp.get_absolute_url }}" class="article__link">
+            <h3 class="article-title">{{ resp.title }}</h3>
+            {% if resp.thumbnail %}
+            <img class="article-image" src="{{ resp.thumbnail.url }}" width=" 100% ">
+            {% endif %}
+            <p class="article-content ">{{ resp.content }}</p>
+        </a>
+        <footer>
+            <div class="like_dislike">
+                <a hidden href="{% url 'unnotice' resp.slug resp.id %}" class="unnotice"></a>
+                <a href="{% url 'like' resp.slug resp.id %}" class="pouces {% for liker in resp.get_liker %}{% if liker.author == author %}is_active{% endif %}{% endfor %}">{{ resp.get_like_number }}</a>
+                <a href="{% url 'dislike' resp.slug resp.id %}" class="dislike {% for disliker in resp.get_disliker %}{% if disliker.author == author %}is_active{% endif %}{% endfor %}">{{ resp.get_dislike_number }}</a>
+            </div>
+            <a href="{% url 'respons' resp.slug resp.id %}" class="commentaires">{{ resp.get_respons_number }}</a>
+        </footer>
+    </article>
+    {% endfor %}
+</div>
+<div class="commentaire_formulaire">
+    <div class="form">
+        <form action="{{ article.get_comment_url }}" class="commentaire_form">
+            {% csrf_token %}
+            <div class="option">
+                <nav class="commentaire_option">
+                    <div>
+                        <label for="input_picture">
+                            <img src="/assets/icons/image-outline.svg" alt="" class="icon">
+                        </label>
+                    </div>
+                </nav>
+            </div>
+            <div>
+                <input type="file" size="40" name="input_picture" id="input_picture" onchange="previewPicture(this)" multiple>
+            </div>
+            <img src="" alt="" class="commentaire_img">
+            <textarea name="commentaire" class="comment-text-area" id="comment-text-area" placeholder="Ecrir un commentaire..."></textarea>
+            <button class="send_btn">
+                <img src="/assets/icons/send-sharp.svg" alt="" srcset="" class="icon send_btn_icon">
+            </button>
+        </form>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

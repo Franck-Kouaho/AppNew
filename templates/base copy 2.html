@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital dev Group</title>
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/contente.css">
+    <link rel="stylesheet" href="/assets/css/spoiler.css">
+    <link rel="stylesheet" href="/assets/css/poste.css">
+</head>
+<body id="body-pd">
+    <div class="l-navbar" id="navbar">
+        <nav class="nav">
+                <div class="nav__brand">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon nav__toggle" id="nav-toggle" width="512" height="512" viewBox="0 0 512 512">
+                        <title>ionicons-v5-j</title>
+                        <line x1="80" y1="160" x2="432" y2="160" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"/>
+                        <line x1="80" y1="256" x2="432" y2="256" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"/>
+                        <line x1="80" y1="352" x2="432" y2="352" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"/>
+                    </svg>
+                    <a href="{% url 'accueil' %}" class="nav__logo">DigitalDev'Group</a>
+                </div>
+                <div class="nav__list">
+                    <a href="{% url 'accueil' %}" class="nav__link active">
+                        <img src="/assets/icons/home-outline.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Accueil</span>
+                    </a>
+                    <div class="nav__link collapse">
+                        <img src="/assets/icons/people-outline.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Communautés</span>
+
+                        <img src="/assets/icons/chevron-down-outline.svg" class="icon collapse__link" alt="derouler">
+
+                        <ul class="collapse__menu">
+                            <a href="#" class="collapse__sublink">Fluter Côte d'Ivoire</a>
+                            <a href="#" class="collapse__sublink">Developpement Web PHP</a>
+                            <a href="#" class="collapse__sublink">Promotech</a>
+                            <a href="#" class="collapse__sublink">Statisticien ENSEA</a>
+                            <a href="#" class="collapse__sublink">Trouver du Job</a>
+                        </ul>
+                    </div>
+                    <div class="nav__link collapse">
+                        <img src="/assets/icons/trending-up-outline-white.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Explorer/Sujets</span>
+
+                        <img src="/assets/icons/chevron-down-outline.svg" class="icon collapse__link" alt="">
+
+                        <ul class="collapse__menu">
+                            <a href="#" class="collapse__sublink">Gaming</a>
+                            <a href="#" class="collapse__sublink">Sport</a>
+                            <a href="#" class="collapse__sublink">Politique</a>
+                            <a href="#" class="collapse__sublink">Science</a>
+                            <a href="#" class="collapse__sublink">Business</a>
+                        </ul>
+                    </div>
+                    <a href="/" class="nav__link">
+                        <img src="/assets/icons/information-circle-outline.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">A propos de nous !</span>
+                    </a>
+                    <a href="/" class="nav__link">
+                        <img src="/assets/icons/call-outline.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Contacts</span>
+                    </a>            
+                </div>
+                <div>
+    {% if user.is_authenticated %}
+                        <a href="#" class="nav__link login_btn" id="log_out_btn">
+                        <img src="/assets/icons/log-out-outline.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Se deconnecter</span>
+                        <script>
+                            sendReq = function(req_url, form = null, queryMethod='POST'){
+                                var HttpRequest = new XMLHttpRequest();                
+                                HttpRequest.open(queryMethod, req_url, true);
+                                if(form != null){
+                                    var data = new FormData(form);
+                                    HttpRequest.send(data);
+                                }else{
+                                    HttpRequest.send(data);
+                                }
+                                return HttpRequest
+                            }
+                            log_out_btn = document.getElementById('log_out_btn')
+                            log_out_btn.addEventListener('click', function(e){
+                                e.preventDefault()
+                                var logout_url = "{% url 'logout' %}"
+                                if(confirm("Voulez-vous vous deconnecter de la page ?")){
+                                    req = sendReq(logout_url, null, "GET")
+                                    req.onreadystatechange = function() {
+                                        if (req.readyState === 4) {
+                                            response = JSON.parse(req.response)
+                                            if(req.status === 200 && response.is_connect === false){
+                                                window.location.replace(window.location.href.replace("#",""))
+                                            }else(
+                                                alert(response.message)
+                                            )
+                                        }
+                                    }
+                                }
+                            })
+                        </script>
+    {% else %}
+                        <a href="#" class="nav__link login_btn">
+                        <img src="/assets/icons/log-in-outline.svg" alt="" class="icon nav__icon">
+                        <span class="nav__name">Se Connecter</span>
+    {% endif %}
+                    </a>
+                </div>
+        </nav>
+    </div>
+    {% if not user.is_authenticated %}
+    <div class="login_form">
+        <span class="fake_element">
+            <img src="/assets/icons/close-circle-outline.svg" alt="" class="close_login_form" width="50px">
+        </span>
+        <div class="form_div" id="login_form">
+            <h1 class="title">Se connecter</h1>
+            <form action="#" id="login_form_element">
+                {% csrf_token %}
+                <div>
+                    <div class="form_question">
+                        <label for="email_username" class="username_label">Nom d'utilisateur / Email</label>
+                        <input type="text" id="email_username" name="username">
+                    </div>
+                    <div class="form_question">
+                        <label for="password" class="password_label">Mot de passe</label>
+                        <input type="password" id="password" name="password">
+                    </div>
+                    <div class="div_option">
+                        <a href="" class="register_btn">S'Inscrire</a>
+                        <a href="">Mot de passe oublié</a>
+                    </div>
+                </div>
+                <div class="submit_btn">
+                    <button type="submit" class="nav__link" id="login_btn">Se Connecter</button>
+                </div>
+            </form>
+        </div>
+        <div class="form_div hidden_element opacity" id="register_form">
+            <h1 class="title">S'Inscrire</h1>
+            <form action="#" id="register_form_element">
+                {% csrf_token %}
+                <div>
+                    <div class="form_question">
+                        <label for="username" class="username_label">Nom d'utilisateur</label>
+                        <input type="text" id="username" name="username">
+                    </div>
+                    <div class="form_question">
+                        <label for="email" class="email_label">Email</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    <div class="form_question">
+                        <label for="register_password" class="password_label">Mot de passe</label>
+                        <input type="password" id="register_password" name="password">
+                    </div>
+                    <div class="form_question">
+                        <label for="Conf_password" class="password_label">Confirmation</label>
+                        <input type="password" id="Conf_password" name="conf_password">
+                    </div>
+                    <div class="div_option">
+                        <a href="" class="login_on_register_btn">Se Connecter</a>
+                    </div>
+                </div>
+                <div class="submit_btn">
+                    <button type="submit" class="nav__link" id="register_btn">S'Inscrire</button>
+                </div>
+            </form>
+        </div>
+        <span class="fake_element"></span>
+        <script>
+            var login_url = "{% url 'login' %}"
+            var register_url = "{% url 'signup' %}"
+            var login_url = "{% url 'login' %}"
+            var register_form_element = document.querySelector("#register_form_element");
+            var login_form_element = document.querySelector("#login_form_element");
+            var input = document.querySelector("#login_btn")
+            debugger
+            var csrftoken = document.querySelector("input[name='csrfmiddlewaretoken']").value
+
+            sendReq = function(req_url, form = null, queryMethod='POST'){
+                var HttpRequest = new XMLHttpRequest();         
+                HttpRequest.open(queryMethod, req_url, true);
+                HttpRequest.setRequestHeader("X-CSRFToken", csrftoken)
+                if(form != null){
+                    var data = new FormData(form);
+                    HttpRequest.send(data);
+                }else{
+                    HttpRequest.send(data);
+                }
+                return HttpRequest
+            }
+            login_form_element.addEventListener('submit', function(e) {
+                e.preventDefault()
+                req = sendReq(login_url, login_form_element)
+                req.onreadystatechange = function() {
+                     if (req.readyState === 4) {
+                        
+                debugger
+                        response = JSON.parse(req.response)
+                        if(req.status === 200 && response.is_connect === true){
+                            window.location.replace(window.location.href.replace("#",""))
+                        }else(
+                            alert(response.message)
+                        )
+                     }
+                }
+                
+            })
+            register_form_element.addEventListener('submit', function(e) {
+                e.preventDefault()
+                req = sendReq(register_url, register_form_element)
+                if(req.status === 200){
+                    window.location.replace(window.location.href.replace("#",""))
+                }
+            })
+        </script>
+    </div>
+    {% endif %}
+
+    <div class="body">
+        <div class="nav-fixe">
+            <nav class="navigation">
+                <a href="{% url 'accueil' %}" class="active actualite">Fil d'actualité</a>
+                <a href="{% url 'publish' %}" class="message">Publier</a>
+                <a href="#" class="event">Mes postes</a>
+                <a href="#" class="groupe">Groupes</a>
+                <a href="#" class="amis">Amis</a>
+            </nav>
+        </div>
+        <main class="main">
+{% block content %}
+
+{% endblock %}
+        </main>
+        <div class="profil">
+            <article class="first">
+                <header>
+                    <img class="article-avatar" src="/assets/image/user2.png" width="50px">
+                    <h2 class="article-title">Mon Pseudo</h2>
+                    <div class="article-date">Il y'a 10 minutes</div>
+                </header>
+                <p class="article-content">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore odit iure, molestiae quam sit vero explicabo magnam magni iusto saepe nisi. Ex ducimus possimus ullam repellendus enim modi dicta at!
+                </p>
+            </article>
+
+            <div class="side_content">
+                <div class="surgestion">Surgestion</div>
+                <div class="surgestion__link">
+                    <a class="sug__link">Sport</a>
+                </div>
+                <div class="surgestion__link">
+                    <a class="surg__link">Musique</a>
+                </div>
+                <div class="surgestion__link">
+                    <a class="surg__link">Football</a>
+                </div>
+                <div class="surgestion__link">
+                    <a class="surg__link">Politique</a>
+                </div>
+                <div class="surgestion__link">
+                    <a class="surg__link">Voyage</a>
+                </div>
+                <div class="surgestion__link">
+                    <a class="surg__link">Science</a>
+                </div>
+                <div class="surgestion__link">
+                    <a class="surg__link">Android</a>
+                </div>
+                <div class="surgestion__link">
+                    <a class="surg__link">Apple</a>
+                </div>
+            </div>
+            <div class="side_content">
+                <div class="surgestion populaire">Populaire</div>
+                
+                <div class="populaire_link">
+                    <a class="surg__link">Apple</a>
+                </div>
+                <div class="populaire_link">
+                    <a class="surg__link">Gaming</a>
+                </div>
+                <div class="populaire_link">
+                    <a class="surg__link">Musique</a>
+                </div>
+                <div class="populaire_link">
+                    <a class="surg__link">Football</a>
+                </div>
+                <div class="populaire_link">
+                    <a class="surg__link">Technologie</a>
+                </div>
+                <div class="populaire_link">
+                    <a class="surg__link">Android 12</a>
+                </div>
+                <div class="populaire_link">
+                    <a class="surg__link">IOS 16</a>
+                </div>
+                <div class="populaire_link">
+                    <a class="surg__link">Rechaufement climatique</a>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="page-footer">
+            <footer>
+                <p>&copy; 2022 <a href="http://www.digitaldevgroup.com">DigitalDev'Group</a> - Tout droit réservé</p>
+            </footer>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+/*===== EXPANDER MENU =====*/
+const showMenu = (toggleId, navbarId, bodyId)=>{
+    const toggle = document.getElementById(toggleId),
+    navbar = document.getElementById(navbarId),
+    bodypadding = document.getElementById(bodyId)
+
+    if(toggle, navbar){
+        toggle.addEventListener('click', ()=>{
+            navbar.classList.toggle('expender')
+            bodypadding.classList.toggle('body-pd')
+        })
+    }
+}
+showMenu('nav-toggle', 'navbar', 'body-pd')
+/*===== LINK ACTIVE =====*/
+ const linkColor = document.querySelectorAll('.nav__link');
+ function colorLink(){
+    linkColor.forEach(l=>l.classList.remove('active'))
+    this.classList.add('active')
+ }
+ linkColor.forEach(L=> L.addEventListener('click', colorLink))
+
+/*===== COLLAPSE MENU =====*/
+const linkCollapse = document.getElementsByClassName('collapse__link')
+var i 
+for (i = 0; i < linkCollapse.length; i++) {
+    linkCollapse[i].addEventListener('click', function(){
+        const collapseMenu = this.nextElementSibling
+        collapseMenu.classList.toggle('showCollapse')
+
+        const rotate = collapseMenu.previousElementSibling
+        rotate.classList.toggle('rotate')
+    })
+}
+
+/*================== FORM ==================*/
+login_btn = document.querySelector(".login_btn")
+login_form = document.querySelector(".login_form")
+close_login_form = document.querySelector(".close_login_form")
+login_btn.addEventListener("click", function(){
+    login_form.classList.add("opacity")
+    login_form.classList.toggle("show")
+    setTimeout(function(){
+        login_form.classList.remove("opacity")
+    }, 1000)
+})
+
+close_login_form.addEventListener("click", function(){
+    login_form.classList.add("opacity")
+    //debugger
+    setTimeout(function(){
+        login_form.classList.toggle("show")
+        login_form.classList.remove("opacity")
+    }, 1000)
+})
+
+/* ================= SWITCH LOGIN AND REGISTER ================= */
+register_btn = document.querySelector(".register_btn")
+login_btn = document.querySelector(".login_btn")
+login_on_register_btn = document.querySelector(".login_on_register_btn")
+login_form_div = document.querySelector("#login_form")
+
+register_form_div = document.querySelector("#register_form")
+
+register_btn.addEventListener("click", function(e){
+    //debugger
+    e.preventDefault()
+    login_form_div.classList.add("opacity")
+    setTimeout(function(){
+        login_form_div.classList.add("hidden_element")
+        register_form_div.classList.remove("hidden_element")
+    }, 1000)
+
+    setTimeout(() => {
+        register_form_div.classList.remove("opacity")
+    }, 1200);
+
+})
+
+login_on_register_btn.addEventListener("click", function(e){
+    //debugger
+    e.preventDefault()
+    register_form_div.classList.add("opacity")
+    setTimeout(function(){
+        register_form_div.classList.add("hidden_element")
+        login_form_div.classList.remove("hidden_element")
+    }, 1000)
+
+    setTimeout(() => {
+        login_form_div.classList.remove("opacity")
+    }, 1200);
+
+})
+    </script>
+    <script type="text/javascript">
+
+var elements = document.querySelectorAll('.spoiler');
+
+var createSpoilerButton = function(element) {
+    //On crée le span
+    var span = document.createElement('span');
+    span.className = 'spoiler-content';
+    span.innerHTML = element.innerHTML;
+
+    //On crée le bouton 
+    var button = document.createElement('button');
+    button.textContent = 'Lire la suite';
+
+    //On ajoute les element à la DOM
+    element.innerHTML = '';
+    element.appendChild(button);
+    element.appendChild(span);
+
+    // On met les ecouteurs d'evenement
+    button.addEventListener('click', function() {
+        button.parentNode.removeChild(button);
+        span.classList.add('visible');
+    })
+};
+for (var i = 0; i < elements.length; i++) {
+    createSpoilerButton(elements[i]);
+}
+    </script>
+</body>
+</html>
